@@ -1,11 +1,14 @@
-package com.flamexander.rabbitmq.console.producer;
+package com.flamexander.rabbitmq.console.Lesson8;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-public class SimpleSenderApp {
+import java.util.Scanner;
+
+public class SenderApp {
+
     private final static String QUEUE_NAME = "hello";
     private final static String EXCHANGER_NAME = "hello_exchanger";
 
@@ -18,33 +21,16 @@ public class SimpleSenderApp {
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
             channel.queueBind(QUEUE_NAME, EXCHANGER_NAME, "java");
 
-            String message = "Hello World!";
-            channel.basicPublish(EXCHANGER_NAME,"java", null, message.getBytes());
-            System.out.println(" [x] Sent '" + message + "'");
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Введите сообщение");
+            String msg = sc.nextLine();
+            String[] parts = msg.split(" ");
+            String part1 = parts[0];
+            String s = msg.substring(msg.lastIndexOf(" "));
+
+            channel.basicPublish(EXCHANGER_NAME, part1, null, s.getBytes());
+            System.out.println(" [x] Sent '" + s + "'");
         }
     }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
